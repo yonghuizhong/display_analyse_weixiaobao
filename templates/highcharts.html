@@ -1,0 +1,319 @@
+{% extends 'basic.html' %}
+{% block MyContent %}
+    <div class="ui equal width grid" style="margin: 5px 0 5px 30px;width: 70%">
+        <div class="row">
+            <div class="column">
+                <!--以下为图表区域-->
+                <div class="ui container segment">
+                    <div class="ui top attached tabular menu">
+                        <a class="active item" id="read">阅读量</a>
+                        <a class="item" id="like">点赞量</a>
+                        {#                                <a class="item" id="analyse">通州</a>#}
+                    </div>
+                    <div class="ui bottom attached segment" id="chart" style="height: 400px"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="column">
+                <div class="ui container segment" id="article_nums" style="height: 400px"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="column">
+                <div class="ui container segment" style="height: 400px;margin-bottom: 50px">
+                    <div class="ui compact menu">
+                        <div class="ui simple dropdown item">
+                            类别
+                            <i class="dropdown icon"></i>
+                            <div class="menu">
+                                <a class="item" id="line_read">阅读量</a>
+                                <a class="item" id="line_like">点赞数</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui container" id="line_chart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block chartsjs %}
+    <script>
+        $(function () {
+            $('#chart').highcharts({
+                credits: {
+                    enabled: false
+                },
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: '公众号文章阅读量超过5000的文章总数'
+                },
+                xAxis: {
+                    type: 'category'
+                },
+                yAxis: {
+                    title: {
+                        text: '文章总数'
+                    }
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    series: {
+                        borderWidth: 0,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.y}篇'
+                        }
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}篇</b>'
+                },
+                series: [{
+                    name: '文章总数',
+                    colorByPoint: true,
+                    data: {{ chart_page_views | safe }}
+                }]
+            });
+        });
+
+        /////////////////////////////////////////////////////////
+        $('#read').click(function () {
+            $('#like').removeClass('active');
+            $('#read').addClass('active');
+            $('#chart').highcharts({
+                credits: {
+                    enabled: false
+                },
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: '公众号文章阅读量超过5000的文章总数'
+                },
+                xAxis: {
+                    type: 'category'
+                },
+                yAxis: {
+                    title: {
+                        text: '文章总数'
+                    }
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    series: {
+                        borderWidth: 0,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.y}篇'
+                        }
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}篇</b>'
+                },
+                series: [{
+                    name: '文章总数',
+                    colorByPoint: true,
+                    data: {{ chart_page_views | safe }}
+                }]
+            });
+        });
+
+        /////////////////////////////////////////////////////////
+        $('#like').click(function () {
+            $('#like').addClass('active');
+            $('#read').removeClass('active');
+            $('#chart').highcharts({
+                credits: {
+                    enabled: false
+                },
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: '公众号文章阅读量超过5000的文章总数'
+                },
+                xAxis: {
+                    type: 'category'
+                },
+                yAxis: {
+                    title: {
+                        text: '文章总数'
+                    }
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    series: {
+                        borderWidth: 0,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.y}篇'
+                        }
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}篇</b>'
+                },
+                series: [{
+                    name: '文章总数',
+                    colorByPoint: true,
+                    data: {{ chart_like_nums | safe }}
+                }]
+            });
+        });
+
+        /////////////////////////////////////////////////////////
+        $(function () {
+            $('#article_nums').highcharts({
+                credits: {
+                    enabled: false
+                },
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: true
+                },
+                title: {
+                    text: '公众号发文总数统计'
+                },
+                tooltip: {
+                    headerFormat: '{series.name}<br>',
+                    pointFormat: '{point.name}: <b>{point.percentage:.1f}%</b>  <b>{point.y}篇</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: false
+                        },
+                        showInLegend: true
+                    }
+                },
+                series: [{
+                    type: 'pie',
+                    name: '发文数占比',
+                    data: {{ article_nums | safe }}
+                }]
+            });
+        });
+
+        /////////////////////////////////////////////////////////
+        $(function () {
+            $('#line_chart').highcharts({
+                credits: {
+                    enabled: false
+                },
+                title: {
+                    text: '公众号文章阅读量折线图'
+                },
+                subtitle: {
+                    text: '文章日期为3月13日、14日的上榜文章'
+                },
+                yAxis: {
+                    title: {
+                        text: '阅读量'
+                    }
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle'
+                },
+                plotOptions: {
+                    series: {
+                        label: {
+                            connectorAllowed: false
+                        },
+                        pointStart: 1
+                    }
+                },
+                series: {{ line_chart_page | safe }}
+            });
+        });
+
+        $('#line_read').click(function () {
+            $('#line_chart').highcharts({
+                credits: {
+                    enabled: false
+                },
+                title: {
+                    text: '公众号文章阅读量折线图'
+                },
+                subtitle: {
+                    text: '文章日期为3月13日、14日的上榜文章'
+                },
+                yAxis: {
+                    title: {
+                        text: '阅读量'
+                    }
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle'
+                },
+                plotOptions: {
+                    series: {
+                        label: {
+                            connectorAllowed: false
+                        },
+                        pointStart: 1
+                    }
+                },
+                series: {{ line_chart_page | safe }}
+            });
+        });
+
+        $('#line_like').click(function () {
+            $('#line_chart').highcharts({
+                credits: {
+                    enabled: false
+                },
+                title: {
+                    text: '公众号文章点赞数折线图'
+                },
+                subtitle: {
+                    text: '文章日期为3月13日、14日的上榜文章'
+                },
+                yAxis: {
+                    title: {
+                        text: '点赞数'
+                    }
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle'
+                },
+                plotOptions: {
+                    series: {
+                        label: {
+                            connectorAllowed: false
+                        },
+                        pointStart: 1
+                    }
+                },
+                series: {{ line_chart_like | safe }}
+            });
+        });
+
+
+    </script>
+{% endblock %}

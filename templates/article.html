@@ -1,0 +1,103 @@
+{% extends 'basic.html' %}
+{% block MyContent %}
+    <div class="ui equal width grid" style="margin: 5px 0 5px 30px;width: 70%">
+        <div class="row">
+            <div class="column">
+                <div class="ui red segment">
+                    <div class="ui statistic">
+                        <div class="value">
+                            {{ counts }}
+                        </div>
+                        <div class="label">
+                            Articles
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="ui blue segment">
+                    <div class="ui statistic">
+                        <div class="value">
+                            2000
+                        </div>
+                        <div class="label">
+                            Views
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="column">
+                <div class="ui container segment">
+                    <div class="ui divided items">
+                        {% for item in article %}
+                            <div class="item">
+                                <div class="content">
+                                    <div>
+                                        <a class="ui header" href="{{ item.href }}" target="_blank">{{ item.title }}</a>
+                                    </div>
+                                    <div class="description">
+                                        {#                            <p style="text-indent: 2em;line-height: 1.5em">{{ item.contents }}</p>#}
+                                        <span style="color: rgba(0,132,255,0.76)">{{ item.category }}</span>
+                                        <a href="{{ item.href }}"
+                                           target="_blank">&nbsp;&nbsp;&nbsp;&nbsp;{{ item.account }}</a>
+                                        <span>&nbsp;&nbsp;&nbsp;&nbsp;{{ item.post_date|date:"Y-m-d" }}</span>
+                                    </div>
+                                    <div class="extra">
+                                        <div class="ui label">
+                                            {% if item.page_views == 100000 %}
+                                                10万+
+                                            {% else %}
+                                                {{ item.page_views }}
+                                            {% endif %}
+                                        </div>
+                                        <div class="ui label">
+                                            {{ item.like_nums }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="ui pagination menu">
+                        {% if article.has_previous %}
+                            <span class="item" id="pre_page">< pre</span>
+                            {#                <a class="item" href="?cate={{ item.category }}&page={{ article.previous_page_number }}"> < pre </a>#}
+                        {% endif %}
+                        <div class="disable item">
+                            page {{ article.number }} of {{ article.paginator.num_pages }}
+                        </div>
+                        {% if article.has_next %}
+                            <span class="item" id="next_page"> next ></span>
+                            {#                <a class="item" href="?cate={{ item.category }}&page={{ article.next_page_number }}"> next > </a>#}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block articlejs %}
+    <script>
+        $('#pre_page').click(function () {
+            var url = window.location.search;
+            var cate = url.split('?')[1].split('=')[1].split('&')[0];
+            {% if article.has_previous %}
+                window.location.href = "http://127.0.0.1:8000/article/" + "?cate=" + cate + "&page={{ article.previous_page_number }}";
+            {% endif %}
+        });
+
+        $('#next_page').click(function () {
+            var url = window.location.search;
+            var cate = 'all';
+            if (url.indexOf("?") != -1)
+                cate = url.split('?')[1].split('=')[1].split('&')[0];
+            {% if article.has_next %}
+                window.location.href = "http://127.0.0.1:8000/article/" + "?cate=" + cate + "&page={{ article.next_page_number }}";
+            {% endif %}
+        });
+    </script>
+{% endblock %}

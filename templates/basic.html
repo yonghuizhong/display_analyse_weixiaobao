@@ -1,0 +1,108 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Article</title>
+    <link rel="stylesheet" href="{% static 'semantic.css' %}"/>
+    <script src="{% static 'jquery.js' %}"></script>
+    <script src="{% static 'semantic.js' %}"></script>
+    <script src="{% static 'exporting.js' %}"></script>
+    <script src="{% static 'highcharts.js' %}"></script>
+    <script src="{% static 'highcharts-more.js' %}"></script>
+</head>
+
+<body>
+<!--左侧栏-->
+<div class="ui left visible sidebar inverted vertical menu">
+    <div class="ui image">
+        <img src="{% static 'logo.jpg' %}">
+    </div>
+    <a class="item" href="http://127.0.0.1:8000/article/?cate=all&page=1">
+        总榜
+        <i class="sellsy icon"></i>
+    </a>
+    <a class="item" href="http://127.0.0.1:8000/article/?cate=shishi&page=1">
+        时事
+        <i class="pagelines icon"></i>
+    </a>
+    <a class="item" href="http://127.0.0.1:8000/article/?cate=difang&page=1">
+        地方
+        <i class="simplybuilt icon"></i>
+    </a>
+
+    <a class="item" href="http://127.0.0.1:8000/article/?cate=shuma&page=1">
+        数码科技
+        <i class="computer icon"></i>
+    </a>
+    <a class="item" href="http://127.0.0.1:8000/article/?cate=zhichang&page=1">
+        职场招聘
+        <i class="payment icon"></i>
+    </a>
+    <a class="item" href="http://127.0.0.1:8000/article/?cate=lvxing&page=1">
+        旅行
+        <i class="travel icon"></i>
+    </a>
+
+    <a class="item" href="http://127.0.0.1:8000/article/?cate=qiche&page=1">
+        汽车
+        <i class="slideshare icon"></i>
+    </a>
+</div>
+<!--以下为网站内容-->
+<div class="pusher">
+    <!--这是顶部菜单-->
+    <div class="ui secondary menu" style="padding: 15px 280px 15px 16px">
+        <a class="active item" id="menu">
+            Menu
+            <i class="content icon"></i>
+        </a>
+        <a class="item" href="http://127.0.0.1:8000/highcharts/" id="highcharts">
+            Highcharts
+        </a>
+        <a class="item">
+            Location
+        </a>
+        <a class="item">
+            Others
+        </a>
+        <div class="right menu">
+            <div class="item">
+                <div class="ui icon input">
+                    <input type="text" placeholder="Search...">
+                    <i class="search link icon"></i>
+                </div>
+            </div>
+            <div class="item">
+                <div class="ui primary button">Sign up</div>
+            </div>
+            <div class="item">
+                <div class="ui button">Sign in</div>
+            </div>
+        </div>
+    </div>
+    <!--以下为正文部分-->
+    {% block MyContent %}
+    {% endblock %}
+</div>
+<!--basic的script-->
+<script>
+    $('#menu').click(function () {
+        $('.ui.sidebar').sidebar('toggle');
+    });
+    /*
+    $('#highcharts').click(function () {
+        $('#menu').removeClass('active');
+        setTimeout(function () {
+            $('#highcharts').addClass('active');
+        },1);
+    });*/
+</script>
+<!--article的script-->
+{% block articlejs %}
+{% endblock %}
+<!--charts的script-->
+{% block chartsjs %}
+{% endblock %}
+</body>
+</html>
