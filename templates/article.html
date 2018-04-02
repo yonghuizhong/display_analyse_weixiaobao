@@ -38,11 +38,11 @@
                                         <a class="ui header" href="{{ item.href }}" target="_blank">{{ item.title }}</a>
                                     </div>
                                     <div class="description">
-                                        {#                            <p style="text-indent: 2em;line-height: 1.5em">{{ item.contents }}</p>#}
                                         <span style="color: rgba(0,132,255,0.76)">{{ item.category }}</span>
                                         <a href="{{ item.href }}"
                                            target="_blank">&nbsp;&nbsp;&nbsp;&nbsp;{{ item.account }}</a>
                                         <span>&nbsp;&nbsp;&nbsp;&nbsp;{{ item.post_date|date:"Y-m-d" }}</span>
+                                        <div style="text-indent: 2em;line-height: 1.5em">{{ item.contents|linebreaks }}</div>
                                     </div>
                                     <div class="extra">
                                         <div class="ui label">

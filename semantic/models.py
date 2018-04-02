@@ -1,6 +1,7 @@
 from django.db import models
 from mongoengine import *
 from datetime import datetime
+
 connect('weixiaobao', host='127.0.0.1', port=27017)
 
 
@@ -22,10 +23,7 @@ class ArticleInfo(Document):
     meta = {'collection': 'all_links'}  # 好像要把这个表的所有属性写上
 
 
-# for i in ArticleInfo.objects[0:4]:
-#     # print(i.title, '\n', i.contents)
-#     print(i.account, i.page_views, i.post_date)
-#     print('\n')
+
 
 pipeline = [
     {'$match': {'$and': [{'post_date': {'$gte': datetime.strptime('2018年3月12日', '%Y年%m月%d日'),
@@ -35,5 +33,5 @@ pipeline = [
     {'$sort': {'total': -1}},
     {'$limit': 20}
 ]
-for i in ArticleInfo._get_collection().aggregate(pipeline):
-    print(i)
+# for i in ArticleInfo._get_collection().aggregate(pipeline):
+#     print(i)
